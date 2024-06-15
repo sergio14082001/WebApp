@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Dashboard.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap" rel="stylesheet">
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+    <!-- Bootstrap CDN from UNPKG -->
+    <link href="https://unpkg.com/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>DriveGuardian</title>
+</head>
+<body>
+    <header>
+        <nav class="nav-container">
+            <div class="logo">
+              DRIVE GUARDIAN
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                <li><a href="https://sites.google.com/view/driveguardianpe" target="_blank">Landing Page</a></li>
+                <li><a href="{{ url_for('dashboard') }}" >Dashboard</a></li>
+                <!-- Agrega un enlace para ir al historial -->
+                <li><a href="{{ url_for('user') }}">Configuración del Usuario</a></li>
+                <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
+                <li><a href="{{ url_for('obtener_historial') }}">Historial</a></li>
+                <a href="#" onclick="mostrarPopup()">Cerrar Sesión</a>
+            </ul>
+         </nav>
+    </header>
+
+    <main>
+        <div class="container-inicio">
+            <div class="container-dashboard desing">
+                <div class="container-sides-dashboard">
+                    <div class="left-side-dashboard">
+
+                      <h3> Predicción de siniestro</h3>
+
+                      <div id="box">
+                          <div id="columna1">
+                          <div class="combo"><label>TIPO_PERSONA:</label>
+                      <select id="tipo_persona" class="form-select" aria-label="Default select example">
+                        <option selected></option>
+                        <option value="0">CONDUCTOR </option>
+                        <option value="1">PASAJERO</option>
+                      </select>
+                      </div>
+                      <div class="combo"><label>SEXO:</label>
+                      <select id="sexo" class="form-select" aria-label="Default select example">
+                          <option selected> </option>
+                          <option value="0">MUJER</option>
+                          <option value="1">HOMBRE</option>
+                        </select>
+                      </div>
+
+                        <div class="combo"><label>MARCA:</label>
+                        <select id="marca" class="form-select" aria-label="Default select example">
+                          <option selected></option>
+                          <option value="0">TOYOTA</option>
+                          <option value="1">KIA</option>
+                          <option value="2">FORD</option>
+                          <option value="3">CHEVROLET </option>
+                          <option value="4">NISSAN </option>
+                          <option value="5">OTROS</option>
+                        </select>
+                      </div>
+
+                        <div class="combo"><label>TIPO_VEHICULO:</label>
+                        <select id="tipo_vehiculo" class="form-select" aria-label="Default select example">
+                          <option selected></option>
+                          <option value="0">AUTOMOVIL</option>
+                          <option value="1">MOTOCICLETA</option>
+                          <option value="2">CAMIONETA</option>
+                          <option value="3">OMNIBUS</option>
+                        </select>
+                      </div>
+
+                        <div class="combo"><label>DIA:</label>
+                        <select id="dia" class="form-select" aria-label="Default select example">
+                          <option selected></option>
+                          <option value="0">LUNES</option>
+                          <option value="1">MARTES</option>
+                          <option value="2">MIERCOLES</option>
+                          <option value="3">JUEVES</option>
+                          <option value="4">VIERNES</option>
+                          <option value="5">SABADO</option>
+                          <option value="6">DOMINGO</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>MES:</label>
+                        <select id="mes" class="form-select" aria-label="Default select example">
+                          <option selected></option>
+                          <option value="0">ENERO</option>
+                          <option value="1">FEBRERO</option>
+                          <option value="2">MARZO</option>
+                          <option value="3">ABRIL</option>
+                          <option value="4">MAYO</option>
+                          <option value="5">JUNIO</option>
+                          <option value="6">JULIO</option>
+                          <option value="7">AGOSTO</option>
+                          <option value="8">SEPTIEMBRE</option>
+                          <option value="9">OCTUBRE</option>
+                          <option value="10">NOVIEMBRE</option>
+                          <option value="11">DICIEMBRE</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>EDAD:</label>
+                        <select id="edad" class="form-select" aria-label="Default select example">
+                          <option selected></option>
+                          <option value="0">JOVEN (18 - 30)</option>
+                          <option value="1">ADULTO (30 - 40) </option>
+                          <option value="2">ADULTO (40 - 50) </option>
+                          <option value="3">ADULTO (50 - 60) </option>
+                          <option value="4">ADULTO MAYOR (60 - 80) </option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>AVENIDA INICIO:</label>
+                        <select id="start" class="form-select" aria-label="Default select example">
+                          <option selected> </option>
+                          <option value="AV SALAVERRY" id="0">AV SALAVERRY</option>
+                            <option value="AV JAVIER PRADO" id="1">AV JAVIER PRADO</option>
+                            <option value="Av Antonio José de Sucre" id="2">AV SUCRE</option>
+                            <option value="AV LA MARINA" id="3">AV LA MARINA</option>
+                            <option value="AV PERSHING" id="4">AV PERSHING</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>AVENIDA LLEGADA:</label>
+                          <select id="end" class="form-select" aria-label="Default select example">
+                            <option selected> </option>
+                            <option value="AV SALAVERRY" id="0">AV SALAVERRY</option>
+                            <option value="AV JAVIER PRADO" id="1">AV JAVIER PRADO</option>
+                            <option value="Av Antonio José de Sucre" id="2">AV SUCRE</option>
+                            <option value="AV LA MARINA" id="3">AV LA MARINA</option>
+                            <option value="AV PERSHING" id="4">AV PERSHING</option>
+                          </select>
+                        </div>
+
+                      <div class="combo"><label>MODALIDAD TRANSPORTE</label>
+                        <select id="v1" class="form-select" aria-label="Default select example">
+                          <option selected>  </option>
+                          <option value="0">PARTICULAR</option>
+                          <option value="1">PUBLICO</option>
+                          <option value="2">DE CARGA</option>
+                          <option value="3">OTRO</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>ETAPA DEL DÍA</label>
+                        <select id="v2" class="form-select" aria-label="Default select example">
+                          <option selected>  </option>
+                          <option value="0">MAÑANA</option>
+                          <option value="1">TARDE</option>
+                          <option value="2">NOCHE</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>ZONA</label>
+                        <select id="v3" class="form-select" aria-label="Default select example">
+                          <option selected>  </option>
+                          <option value="0">RURAL</option>
+                          <option value="1">URBANO</option>
+                          <option value="2">DESCONOCIDO</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>PERFIL DE VIA</label>
+                        <select id="v6" class="form-select" aria-label="Default select example">
+                          <option selected>  </option>
+                          <option value="0">PLANA</option>
+                          <option value="1">INCLINADA</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>SUPERFICIE</label>
+                        <select id="v7" class="form-select" aria-label="Default select example">
+                          <option selected>  </option>
+                          <option value="0">ASFALTADO</option>
+                          <option value="1">TROCHA</option>
+                          <option value="2">CONCRETO</option>
+                        </select>
+                      </div>
+
+                      <div class="combo"><label>CLIMA</label>
+                        <select id="clima" class="form-select" aria-label="Default select example">
+                          <option selected>  </option>
+                          <option value="0">SOLEADO</option>
+                          <option value="1">NUBLADO</option>
+                          <option value="2">DESPEJADO</option>
+                        </select>
+                      </div>
+
+
+                    </div>
+
+                        <!-- <div id="container">
+                          <div id="map"></div>
+                          <input type="submit" id="submit" />
+                      </div>
+                        <div id="resultados" style="display: none;" >
+                        <h4>La probabilidad de que sufra un accidente de tránsito grave es: <p id="resultado">Cargando...</p> </h4> <!-- VARIABLE DE FASTAPI -->
+                        <!-- </div>
+                      </div> -->
+                      <div class="Map-Output">
+                        <div class="Map-Prediction">
+                          <div id="container">
+                            <div id="map"></div>
+                            <!-- <input type="submit" id="submit" /> -->
+                          </div>
+                          <div id="prediction">
+                            <h4>La probabilidad de que sufra un accidente de tránsito grave es: <p id="resultados"></p> </h4> <!-- VARIABLE DE FASTAPI -->
+                          </div>
+                         <div class="etiqueta">
+                            <p id="AltoNivelPrioridad"></p>
+                            <p id="MedioNivelPrioridad"></p>
+                            <p id="BajoNivelPrioridad"></p>
+                          </div>
+                          <p>LEYENDAS DE RUTAS</p>
+                          <div class="legend">
+                            <div><span class="legend-color" style="background-color: green;"></span> Ruta Principal</div>
+                            <div><span class="legend-color" style="background-color: red;"></span> Ruta Secundaria 1</div>
+                            <div><span class="legend-color" style="background-color: blue;"></span> Ruta Secundaria 2</div>
+                          </div>
+                          <p>LEYENDAS DE TRÁFICO</p>
+                          <div class="traffic-legend">
+                            <div><span class="legend-line" style="background-color: red;"></span> TRÁFICO ALTO</div>
+                            <div><span class="legend-line" style="background-color: yellow;"></span> TRÁFICO MEDIO</div>
+                            <div><span class="legend-line" style="background-color: green;"></span> TRÁFICO BAJO</div>
+                          </div>
+                        </div>
+                        <!-- <div>
+                          <p class="outputOpenAI" id="output"></p>
+                        </div> -->
+                      </div>
+                    <div class="right-side-dashboard">
+                      <div id="contenedor">
+                        <div class="combo">
+                            <button id="lanzarURL" class="btn btn-primary" >Obtener Resultados (Prediccion y Ruta)</button>
+                        </div>
+                        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                          <div id="resultadoToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                              <strong class="me-auto">Notificación</strong>
+                              <small>Ahora</small>
+                              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                              El botón "Obtener Resultados" ha sido ejecutado satisfactoriamente.
+                            </div>
+                          </div>
+                        </div>
+                        <button id="executeButton" class="btn btn-primary" disabled>Obtener Recomendaciones e Insights IA</button>
+                        <!-- Toast para Obtener Recomendaciones -->
+                        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" style="top: 80px;">
+                          <div id="recomendacionesToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                              <strong class="me-auto">Notificación</strong>
+                              <small>Ahora</small>
+                              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                              El botón "Obtener Recomendaciones e Insights IA" ha sido ejecutado satisfactoriamente.
+                            </div>
+                          </div>
+                        </div>
+
+                        <button id="resetButton" class="btn btn-secondary" disabled>Resetear</button>
+
+                        <div id="responseContainer"></div>
+
+
+                      </div>
+                    </div> <!--right-side-dashboard-->
+                </div><!--container-sides-dashboard-->
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+
+ <script>
+    let trafficLayer;
+    function initMap() {
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer();
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 11,
+        center: { lat: -12.036674361324833, lng: -77.00233214282208 },
+      });
+
+      const trafficLayer = new google.maps.TrafficLayer();
+      trafficLayer.setMap(map);
+      directionsRenderer.setMap(map);
+      document.getElementById("lanzarURL").addEventListener("click", () => {
+        calculateAndDisplayRoute(directionsService, directionsRenderer);
+      });
+
+      document.getElementById("assignNewRoute").addEventListener("click", () => {
+        asignarNuevaRuta(directionsRenderer);
+      });
+    }
+
+
+// Definir variables globales al principio de tu script
+let globalStartCoords, globalEndCoords;
+
+function separarDireccion(direccion) {
+    // Divide la dirección completa por comas
+    const partes = direccion.split(',');
+    // La calle generalmente es el primer elemento
+    const calle = partes[0].trim();
+    // El distrito podría ser el segundo o el tercer elemento, dependiendo de la presencia del número de calle
+    const distrito = partes[1].trim();
+    return { calle, distrito }; // Retorna un objeto con la calle y el distrito
+}
+
+
+function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+    const startElement = document.getElementById("start");
+    const endElement = document.getElementById("end");
+    const startPoint = startElement.value;
+    const endPoint = endElement.value;
+
+    directionsService.route({
+        origin: startPoint,
+        destination: endPoint,
+        travelMode: google.maps.TravelMode.DRIVING,
+        provideRouteAlternatives: true
+    }, (response, status) => {
+        if (status === 'OK') {
+            // Limpiar rutas previas si es necesario
+            directionsRenderer.setDirections(null);
+            directionsRenderer.setDirections(response);
+            directionsRenderer.setRouteIndex(0); // Establece la ruta principal
+
+            const mainRouteRenderer = new google.maps.DirectionsRenderer({
+                map: directionsRenderer.getMap(),
+                directions: response,
+                routeIndex: 0,
+                polylineOptions: {
+                    strokeColor: 'green', // Cambiar el color de la ruta principal aquí
+                    strokeOpacity: 0.6,
+                    strokeWeight: 6
+                },
+                preserveViewport: true // Evitar que el mapa cambie el zoom automáticamente
+            });
+
+            const renderers = [mainRouteRenderer];
+
+            // Iterar sobre rutas alternativas si las hay
+            const routes = response.routes;
+            for (let i = 1; i < routes.length; i++) {
+                const renderer = new google.maps.DirectionsRenderer({
+                    map: directionsRenderer.getMap(),
+                    directions: response,
+                    routeIndex: i,
+                    polylineOptions: {
+                        strokeColor: i === 1 ? 'red' : 'blue', // Diferentes colores para diferentes rutas
+                        strokeOpacity: 0.6,
+                        strokeWeight: 6
+                    },
+                    preserveViewport: true // Evitar que el mapa cambie el zoom automáticamente
+                });
+                renderers.push(renderer);
+                // Añadir event listeners para el click
+                    google.maps.event.addListener(renderer, 'click', () => {
+                    const routeInfo = route.legs.reduce((acc, leg) => ({
+                        duration: acc.duration + (leg.duration.value / 60),
+                        distance: acc.distance + (leg.distance.value / 1000)
+                    }), { duration: 0, distance: 0 });
+
+                    const infoWindowContent = `Duración estimada: ${routeInfo.duration.toFixed(2)} minutos<br>Distancia: ${routeInfo.distance.toFixed(2)} km`;
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: infoWindowContent,
+                        position: route.overview_path[Math.floor(route.overview_path.length / 2)]
+                    });
+
+                    infoWindow.open(renderer.getMap());
+                });
+            }
+
+
+
+            const route = response.routes[0];
+            const legs = route.legs;
+            const steps = legs[0].steps;
+
+            // Puntos de inicio y fin de la ruta
+            const startLocation = legs[0].start_location;
+            const endLocation = legs[legs.length - 1].end_location;
+            globalStartCoords = legs[0].start_location;
+            globalEndCoords = legs[legs.length - 1].end_location;
+
+            // Mostrar las coordenadas de inicio y fin
+            document.getElementById('startPointCoords').textContent = `Inicio Coordenadas: (${startLocation.lat()}, ${startLocation.lng()})`;
+            document.getElementById('endPointCoords').textContent = `Fin Coordenadas: (${endLocation.lat()}, ${endLocation.lng()})`;
+
+            // Obtener direcciones de inicio y fin
+            getReverseGeocodingData(startLocation.lat(), startLocation.lng(), (address) => {
+                const { calle, distrito } = separarDireccion(address);
+                document.getElementById('startPointAddress').textContent = `Inicio: ${address}`;
+                document.getElementById('startPointAddress2').textContent = `Inicio: ${calle} - ${distrito}`;
+            });
+
+            getReverseGeocodingData(endLocation.lat(), endLocation.lng(), (address) => {
+                const { calle, distrito } = separarDireccion(address);
+                document.getElementById('endPointAddress').textContent = `Fin: ${address}`;
+                document.getElementById('endPointAddress2').textContent = `Fin: ${calle} - ${distrito}`;
+            });
+
+            // Extraer un punto de control central
+            const numSteps = steps.length;
+            const midIndex = Math.floor(numSteps / 2); // Índice del paso medio
+            const midStep = steps[midIndex];
+            const controlPoint = midStep.start_location; // Usar start_location del paso medio
+
+            // Colocar un marcador para el punto de control
+            new google.maps.Marker({
+                position: controlPoint,
+                map: directionsRenderer.getMap(),
+                title: "Punto de Control Central"
+            });
+
+            // Obtener la dirección legible para el punto de control y mostrarla
+            getReverseGeocodingData(controlPoint.lat(), controlPoint.lng(), (address) => {
+                document.getElementById('waypoint1').textContent = `Punto de Control Central: ${address}`;
+            });
+
+            // Omitir el proceso para otros puntos de control y marcadores no necesarios
+
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
+}
+
+
+function getReverseGeocodingData(lat, lng, callback) {
+    var latlng = new google.maps.LatLng(lat, lng);
+    // Esto es necesario para utilizar el servicio de geocodificación de Google Maps.
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'latLng': latlng }, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+                callback(results[0].formatted_address); // Llama al callback con la dirección
+            } else {
+                callback("No se encontraron resultados");
+            }
+        } else {
+            callback("La geocodificación falló debido a: " + status);
+        }
+    });
+}
+
+
+async function asignarNuevaRuta(directionsRenderer) {
+    // Asumiendo que cada línea del waypoint está en el innerText del 'output' y separados por saltos de línea
+    const outputText = document.getElementById('output').innerText;
+    const lines = outputText.split('\n'); // Divide el texto por cada nueva línea
+    console.log(outputText);
+    console.log(lines);
+    // Filtrar líneas que empiezan con "- Waypoint" y extraer las coordenadas
+    let waypoints = lines.filter(line => line.startsWith('- Waypoint'))
+                     .map(line => {
+                         const coordsText = line.match(/\(([^)]+)\)/)[1];
+                         const [lat, lng] = coordsText.split(', ').map(Number);
+
+                         console.log("Coords Text:", coordsText); // Confirma que el texto extraído es correcto
+                         console.log("Lat:", lat, "Lng:", lng); // Confirma que los números son válidos
+
+                         if (!isNaN(lat) && !isNaN(lng)) {
+                             const waypoint = {
+                                 location: new google.maps.LatLng(lat, lng),
+                                 stopover: true
+                             };
+                             console.log("Waypoint Lat:", waypoint.location.lat(), "Waypoint Lng:", waypoint.location.lng()); // Usa métodos .lat() y .lng() para obtener valores numéricos
+                             return waypoint;
+                         } else {
+                             return undefined; // Retorna undefined si hay un problema con las coordenadas
+                         }
+                     }).filter(point => point !== undefined); // Elimina cualquier waypoint indefinido
+
+    console.log("Waypoints:", waypoints); // Esto debería mostrarte el array completo
+    console.log("Number of waypoints:", waypoints.length); // Esto debería mostrarte el número de waypoints
+    console.log(globalStartCoords);
+    console.log(globalEndCoords);
+    // Configuración de la petición para Google Maps Directions API
+    if (globalStartCoords && globalEndCoords && waypoints.length == 1) {
+        const request = {
+            origin: globalStartCoords, // Usa las coordenadas de inicio almacenadas globalmente
+            destination: globalEndCoords, // Usa las coordenadas de fin almacenadas globalmente
+            waypoints: waypoints, // El resto son waypoints
+            travelMode: google.maps.TravelMode.DRIVING,
+        };
+
+        // Crear e invocar el servicio DirectionsService
+        const directionsService = new google.maps.DirectionsService();
+        directionsService.route(request, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+                directionsRenderer.setDirections(result);
+            } else {
+                window.alert('No se pudieron obtener direcciones debido a: ' + status);
+            }
+        });
+    } else {
+        window.alert('No se encontraron suficientes waypoints para generar una ruta.');
+    }
+}
+
+//document.getElementById('assignNewRoute').addEventListener('click', asignarNuevaRuta);
+
+window.initMap = initMap;
+
+</script>
+ <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkLdWQoG5q82z8h7gGMwLD-m8aXd3PU6M&callback=initMap"></script>
+<script>
+async function obtenerResultado()
+{
+            try {
+                // Configura los parámetros de tu solicitud
+
+                let tipoPersonaElement = document.getElementById("tipo_persona");
+                let sexoElement = document.getElementById("sexo");
+                let edadElement = document.getElementById("edad");
+                let climaElement = document.getElementById("clima");
+                let clasevehiculoElement = document.getElementById("tipo_vehiculo");
+                let mesElement = document.getElementById("mes");
+                let diaElement = document.getElementById("dia");
+                let marcaElement = document.getElementById("marca");
+                let calleorigenElement = document.getElementById("end");
+                let calledestinoElement = document.getElementById("start");
+                let v1 = document.getElementById("v1");
+                let v2 = document.getElementById("v2");
+                let v3 = document.getElementById("v3");
+                //let v4 = document.getElementById("v4");
+                //let v5 = document.getElementById("v5");
+                let v6 = document.getElementById("v6");
+                let v7 = document.getElementById("v7");
+                let CLIMA = climaElement.value
+                let TIPO_PERSONA = tipoPersonaElement.value
+                let SEXO = sexoElement.value
+                let EDAD = edadElement.value
+                let CLASE_VEHICULO = clasevehiculoElement.value
+                let MES = mesElement.value
+                let DIA = diaElement.value
+                let MARCA = marcaElement.value
+                let VARIABLE_1 = v1.value
+                let VARIABLE_2 = v2.value
+                let VARIABLE_3 = v3.value
+                let VARIABLE_4 = 1
+                let VARIABLE_5 = 1
+                let VARIABLE_6 = v6.value
+                let VARIABLE_7 = v7.value
+                let CALLE_ORIGEN = calleorigenElement.value
+                let CALLE_ORIGEN2 = calleorigenElement.value
+                if(CALLE_ORIGEN == 'AV SALAVERRY')
+                {
+                  CALLE_ORIGEN = 0
+                }
+                else if (CALLE_ORIGEN == 'AV JAVIER PRADO')
+                {
+                  CALLE_ORIGEN = 1
+                }
+                else if (CALLE_ORIGEN == 'Av Antonio José de Sucre')
+                {
+                  CALLE_ORIGEN = 2
+                }
+                else if (CALLE_ORIGEN == 'AV LA MARINA')
+                {
+                  CALLE_ORIGEN = 3
+                }
+                else if (CALLE_ORIGEN == 'AV PERSHING')
+                {
+                  CALLE_ORIGEN = 4
+                }
+                let CALLE_DESTINO = calledestinoElement.value
+                let CALLE_DESTINO2 = calledestinoElement.value
+                if(CALLE_DESTINO == 'AV SALAVERRY')
+                {
+                  CALLE_DESTINO = 0
+                }
+                else if (CALLE_DESTINO == 'AV JAVIER PRADO')
+                {
+                  CALLE_DESTINO = 1
+                }
+                else if (CALLE_DESTINO == 'Av Antonio José de Sucre')
+                {
+                  CALLE_DESTINO = 2
+                }
+                else if (CALLE_DESTINO == 'AV LA MARINA')
+                {
+                  CALLE_DESTINO = 3
+                }
+                else if (CALLE_DESTINO == 'AV PERSHING')
+                {
+                  CALLE_DESTINO = 4
+                }
+                // Construye la URL de la API
+
+                //let url = `http://127.0.0.1:8000/make_preds/${TIPO_PERSONA}/${SEXO}/${CLASE_VEHICULO}/${EDAD}/${MES}/${DIA}/${MARCA}/${CALLE_ORIGEN}/${CLIMA}`;
+                let url = `https://fastapiv1-df72c2400434.herokuapp.com/make_preds/${CALLE_ORIGEN}/${TIPO_PERSONA}/${EDAD}/${SEXO}/${CLASE_VEHICULO}/${MARCA}/${VARIABLE_1}/${VARIABLE_2}/${VARIABLE_3}/${VARIABLE_4}/${CLIMA}/${VARIABLE_5}/${VARIABLE_6}/${VARIABLE_7}/${MES}/${DIA}`;
+                let url2 = `https://fastapiv1-df72c2400434.herokuapp.com/make_preds/${CALLE_DESTINO}/${TIPO_PERSONA}/${EDAD}/${SEXO}/${CLASE_VEHICULO}/${MARCA}/${VARIABLE_1}/${VARIABLE_2}/${VARIABLE_3}/${VARIABLE_4}/${CLIMA}/${VARIABLE_5}/${VARIABLE_6}/${VARIABLE_7}/${MES}/${DIA}`;
+                // Realiza la solicitud a la API FastAPI
+                let response = await fetch(url);
+                let response2 = await fetch(url2);
+                //{ mode: 'no-cors' }
+                if (response.ok) {
+            // Lee el contenido de la respuesta como texto
+            let data = await response.json();
+            let data2 = await response2.json();
+            console.log(data);
+            console.log(data2);
+            let resultado = data.Resultado
+            let resultado2 = data2.Resultado
+            let resultado_final = (parseFloat(resultado) + parseFloat(resultado2)) / 2;
+            // Convertir a porcentaje
+            window.resultado_final = ((resultado_final/10000) * 100).toFixed(5) + '%';
+            let porcentaje_final = ((resultado_final/10000) * 100).toFixed(5) + '%';
+            // Muestra el resultado en el HTML
+            document.getElementById("resultados").innerText = `Resultado: ${window.resultado_final}`;
+            document.getElementById("executeButton").disabled = false;
+            //Mostrar las etiquetas
+            etiquetaNivelProbalidad(((resultado_final/10000) * 100).toFixed(5) )
+            // Llama a la función para guardar el historial
+            guardarHistorial({
+                    avenida_inicio: CALLE_ORIGEN2,
+                    avenida_fin: CALLE_DESTINO2,
+                    porcentaje_prediccion: porcentaje_final
+                });
+
+        } else {
+            console.error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
+            document.getElementById("resultado").innerText = "Error al obtener el resultado";
+        }
+
+    } catch (error) {
+        console.error("Error al obtener el resultado:", error);
+        document.getElementById("resultado").innerText = "Error al obtener el resultado";
+    }
+}
+
+// Función para guardar el historial
+function guardarHistorial(historialData) {
+    fetch('/guardar_historial', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(historialData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Historial guardado:", data);
+    })
+    .catch(error => {
+        console.error("Error al guardar el historial:", error);
+    });
+}
+function etiquetaNivelProbalidad(valor){
+
+var prioridad;
+if (valor > 0.0060) {
+      prioridad = "Alto";
+      var prioridadElemento = document.getElementById("AltoNivelPrioridad");
+      document.getElementById("AltoNivelPrioridad").style.display = "block";
+      document.getElementById("MedioNivelPrioridad").style.display = "none";
+      document.getElementById("BajoNivelPrioridad").style.display = "none";
+
+  } else if (valor >= 0.0040) {
+      prioridad = "Medio";
+      var prioridadElemento = document.getElementById("MedioNivelPrioridad");
+      document.getElementById("MedioNivelPrioridad").style.display = "block";
+      document.getElementById("AltoNivelPrioridad").style.display = "none";
+      document.getElementById("BajoNivelPrioridad").style.display = "none";
+
+  } else {
+      prioridad = "Bajo";
+      var prioridadElemento = document.getElementById("BajoNivelPrioridad");
+      document.getElementById("BajoNivelPrioridad").style.display = "block";
+      document.getElementById("AltoNivelPrioridad").style.display = "none";
+      document.getElementById("MedioNivelPrioridad").style.display = "none";
+
+  }
+
+  prioridadElemento.textContent = "Probabilidad: " + prioridad;
+
+}
+
+
+  //document.getElementById('lanzarURL').addEventListener('click', obtenerResultado);
+document.getElementById('lanzarURL').addEventListener('click', function() {
+    //obtenerResultado();
+    obtenerResultado().then(() => {
+        var toastEl = document.getElementById('resultadoToast');
+        var toast = new bootstrap.Toast(toastEl);
+        toast.show();
+        document.getElementById('resetButton').disabled = false;
+    });
+    document.getElementById('lanzarURL').disabled = true;
+    // Agregar escuchas a todos los comboboxes
+    document.querySelectorAll('select').forEach((select) => {
+        select.addEventListener('change', function() {
+            // Comprobar si hay alguna opción seleccionada en cada combobox
+            let allSelected = true;
+            document.querySelectorAll('select').forEach((select) => {
+                if (select.value === "") {
+                    allSelected = false;
+                }
+            });
+            // Habilitar el botón si todos los comboboxes tienen una opción seleccionada
+            if (allSelected) {
+                document.getElementById('lanzarURL').disabled = false;
+            }
+        });
+    });
+});
+
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("BajoNivelPrioridad").style.display = "none";
+        document.getElementById("AltoNivelPrioridad").style.display = "none";
+        document.getElementById("MedioNivelPrioridad").style.display = "none";
+      });
+    </script>
+<script>
+        document.getElementById('executeButton').onclick = function()  {
+        const resultado_probabilidad = window.resultado_final || 'No disponible';
+        const tipo_persona = document.getElementById("tipo_persona").value;
+        const sexo = document.getElementById("sexo").value;
+        const edad = document.getElementById("edad").value;
+        const clima = document.getElementById("clima").value;
+        const tipo_vehiculo = document.getElementById("tipo_vehiculo").value;
+        const mes = document.getElementById("mes").value;
+        const dia = document.getElementById("dia").value;
+        const marca = document.getElementById("marca").value;
+        const avenida_end =  document.getElementById("end").value;
+        const avenida_start =  document.getElementById("start").value;
+        const Modalidad_transporte = document.getElementById("v1").value;
+        const etapa_dia = document.getElementById("v2").value;
+        const zona = document.getElementById("v3").value;
+        const perfil_via = document.getElementById("v6").value;
+        const superficie = document.getElementById("v7").value;
+          fetch('/execute-script', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ resultado_probabilidad, tipo_persona, sexo, edad, clima, tipo_vehiculo, mes, dia, marca, avenida_end, avenida_start, Modalidad_transporte, etapa_dia, zona, perfil_via, superficie })
+          })
+          .then(response => response.json())
+          .then(data => {
+        console.log(data);
+        // Mostrar los datos en la página web
+        const container = document.getElementById('responseContainer');
+        container.innerHTML = '';  // Limpiar contenedor previo
+
+        // Crea un elemento para mostrar el mensaje y lo añade al contenedor
+        const messageElement = document.createElement('div');
+        messageElement.innerHTML = data.message.replace(/\n/g, '<br>');  // Reemplazar saltos de línea por <br>
+        container.appendChild(messageElement);
+
+        // Mostrar el toast si la respuesta es exitosa
+        var toastEl = document.getElementById('recomendacionesToast'); // Asegúrate de que el ID coincide con tu toast
+        var toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    });
+}
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const tipoPersonaSelect = document.getElementById("tipo_persona");
+      const sexoSelect = document.getElementById("sexo");
+      const marcaSelect = document.getElementById("marca");
+      const edadSelect = document.getElementById("edad");
+      const climaSelect = document.getElementById("clima");
+      const tipo_vehiculoSelect = document.getElementById("tipo_vehiculo");
+      const mesSelect = document.getElementById("mes");
+      const diaSelect = document.getElementById("dia");
+      const Modalidad_transporteSelect = document.getElementById("v1");
+      const etapa_diaSelect = document.getElementById("v2");
+      const zonaSelect = document.getElementById("v3");
+      const perfil_viaSelect = document.getElementById("v6");
+      const superficieSelect = document.getElementById("v7");
+
+      // Event listener para el combobox "ETAPA DEL DÍA"
+      etapa_diaSelect.addEventListener("change", function() {
+            const selectedEtapaDia = etapa_diaSelect.value;
+            actualizarOpcionesClima(selectedEtapaDia, climaSelect);
+        });
+
+        // Función para actualizar las opciones del combobox "CLIMA" según la etapa del día seleccionada
+      function actualizarOpcionesClima(selectedEtapaDia, selectElement) {
+            // Habilitar todas las opciones en primer lugar
+            Array.from(selectElement.options).forEach(function(option) {
+                option.disabled = false;
+            });
+
+            // Deshabilitar la opción "SOLEADO" si la etapa del día es "NOCHE"
+            if (selectedEtapaDia === "2") { // Si la etapa del día es "NOCHE"
+                const soleadoOption = selectElement.querySelector('option[value="0"]');
+                soleadoOption.disabled = true;
+            }
+        }
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const startSelect = document.getElementById("start");
+      const endSelect = document.getElementById("end");
+
+      // Event listener para el combobox "AVENIDA INICIO"
+      startSelect.addEventListener("change", function() {
+          const selectedOptionValue = startSelect.value;
+          desactivarOpcionSeleccionada(selectedOptionValue, endSelect);
+      });
+
+      // Función para desactivar la opción seleccionada en el combobox "AVENIDA LLEGADA"
+      function desactivarOpcionSeleccionada(selectedValue, selectElement) {
+          Array.from(selectElement.options).forEach(function(option) {
+              if (option.value === selectedValue) {
+                  option.disabled = true; // Desactivar la opción seleccionada
+              } else {
+                  option.disabled = false; // Habilitar las otras opciones
+              }
+          });
+      }
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const botonObtenerResultados = document.getElementById("lanzarURL");
+      const comboboxes = document.querySelectorAll(".form-select");
+
+      // Agregar evento de cambio a todos los comboboxes
+      comboboxes.forEach(function(combobox) {
+          combobox.addEventListener("change", function() {
+              verificarComboboxes();
+          });
+      });
+
+      // Función para verificar si todos los comboboxes tienen una opción seleccionada
+      function verificarComboboxes() {
+          let todosSeleccionados = true;
+
+          comboboxes.forEach(function(combobox) {
+              if (combobox.value === "") {
+                  todosSeleccionados = false;
+              }
+          });
+
+          // Habilitar o deshabilitar el botón según el estado de los comboboxes
+          botonObtenerResultados.disabled = !todosSeleccionados;
+      }
+
+      // Verificar el estado de los comboboxes cuando se carga la página
+      verificarComboboxes();
+  });
+</script>
+<script>
+  // Función para resetear los valores y deshabilitar el botón de ejecución
+  function resetear() {
+      // Limpiar los valores de los comboboxes
+      document.getElementById("tipo_persona").value = "";
+      document.getElementById("sexo").value = "";
+      document.getElementById("edad").value = "";
+      document.getElementById("start").value = "";
+      document.getElementById("end").value = "";
+      document.getElementById("marca").value = "";
+      document.getElementById("clima").value = "";
+      document.getElementById("tipo_vehiculo").value = "";
+      document.getElementById("mes").value = "";
+      document.getElementById("dia").value = "";
+      document.getElementById("v1").value = "";
+      document.getElementById("v2").value = "";
+      document.getElementById("v3").value = "";
+      document.getElementById("v6").value = "";
+      document.getElementById("v7").value = "";
+      // Agrega el resto de los comboboxes que deseas limpiar
+
+      // Deshabilitar el botón de ejecución
+      document.getElementById("executeButton").disabled = true;
+      document.getElementById("lanzarURL").disabled = true;
+
+      // Limpiar el contenido del contenedor del mensaje
+      document.getElementById('responseContainer').innerHTML = '';
+
+  }
+
+document.getElementById('resetButton').addEventListener('click', function() {
+    window.location.reload(); // Esto recargará la página
+});
+
+  // Evento de escucha para el botón de reseteo
+  //document.getElementById('resetButton').addEventListener('click', resetear);
+</script>
+<script>
+  function mostrarPopup() {
+      alert('Sesión cerrada');
+      window.location.href = "{{ url_for('login') }}";
+  }
+</script>
+</body>
+</html>

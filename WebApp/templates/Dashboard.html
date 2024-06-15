@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Style.css') }}">
+    <title>Dashboard</title>
+    <style>
+        .info-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            width: 300px;
+            position: absolute;
+            top: 100px;  /* Ajusta esta posición según tu diseño */
+            right: 20px; /* Ajusta esta posición según tu diseño */
+        }
+        .info-box h3 {
+            margin-top: 0;
+        }
+        .info-box p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{{ url_for('index') }}">
+            <div class="logo">DRIVE GUARDIAN</div>
+        </a>
+    </header>
+    <main>
+        <div class="info-box">
+            <h3>Información del Dashboard</h3>
+            <p><strong>Año de la data:</strong> 2023</p>
+            <p><strong>Origen de la data:</strong> <a href="https://www.onsv.gob.pe/datosabiertos">ONSV</a></p>
+            <p><strong>Descripción breve del dashboard:</strong> Este dashboard muestra un análisis exhaustivo de los datos de tráfico y seguridad vial del año 2023, proporcionando información clave para la toma de decisiones y la mejora de las políticas de seguridad.</p>
+        </div>
+        <h2>Dashboard</h2>
+        <iframe title="EDA"
+        width="1500"
+        height="600"
+        src="https://app.powerbi.com/view?r=eyJrIjoiMTM0NTI5MzAtZTQyNy00N2YwLWI2ODktNzU5YjAwZmE5M2M5IiwidCI6IjBlMGNiMDYwLTA5YWQtNDlmNS1hMDA1LTY4YjliNDlhYTFmNiIsImMiOjR9"
+        frameborder="0"
+        allowFullScreen="true"></iframe>
+    </main>
+</body>
+</html>

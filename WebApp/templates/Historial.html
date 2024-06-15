@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Style.css') }}">
+    <title>Historial</title>
+</head>
+<body>
+    <header class="header">
+        <a href="{{ url_for('index') }}">
+            <div class="logo">DRIVE GUARDIAN</div>
+        </a>
+    </header>
+    <main>
+        <h2>Historial de Ejecuciones</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Avenida de Inicio</th>
+                    <th>Avenida de Fin</th>
+                    <th>Porcentaje de Predicción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in historial %}
+                <tr>
+                    <td>{{ item.fecha_hora }}</td>
+                    <td>{{ item.avenida_inicio }}</td>
+                    <td>{{ item.avenida_fin }}</td>
+                    <td>{{ item.porcentaje_prediccion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

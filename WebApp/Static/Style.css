@@ -1,0 +1,235 @@
+*{
+    font-family: 'Ropa Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f2f5;
+    padding-top: 60px;
+}
+
+
+.login-container, .register-container, .user-settings-container {
+    margin-top: 60px;
+    width: 400px;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.register-container input[type="text"],
+.register-container input[type="password"],
+.register-container input[type="email"]{
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.user-settings-container input[type="text"],
+.user-settings-container input[type="password"] {
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.password-container {
+    position: relative;
+    width: 100%; /* Asegura que ocupe el 100% del ancho del contenedor */
+}
+
+.password-container input {
+    width: calc(100% - 40px);
+    padding-right: 40px;
+}
+
+.login-container button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.register-container button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.user-settings-container button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.register-link {
+    margin-top: 20px;
+}
+
+/* .header {
+    width: 100%;
+    background-color: #0d1225;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    min-height: 8vh;
+    text-align: center
+}
+
+.logo {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+
+} */
+
+.header {
+    width: 100%;
+    background-color: #0d1225;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    min-height: 8vh;
+    display: flex; /* Añade flexbox */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+
+.logo {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+    flex: 1; /* Opcional: expande el elemento para ocupar el espacio disponible */
+    text-align: left; /* Alinea el texto horizontalmente */
+}
+
+/* CSS para la animación de salto */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.bounce {
+    animation: bounce 0.5s;
+}
+
+#eliminar-cuenta-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#confirmacion-eliminar {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 1000; /* Asegura que el cuadro esté por encima de otros elementos */
+}
+
+#confirmacion-eliminar button {
+    margin: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.valid-password-message {
+    display: none;
+    color: green;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.valid-email-message {
+    display: none;
+    color: green;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.valid-confirm-password-message {
+    display: none;
+    color: green;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.user-settings-container .password-container input[type="password"] {
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}

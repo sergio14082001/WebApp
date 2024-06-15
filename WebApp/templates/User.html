@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración del Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .password-container {
+            position: relative;
+            width: 100%;
+            margin-right: 100px;
+        }
+        .password-container input {
+            width: calc(100% - 40px);
+            padding-right: 40px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .toggle-password i {
+            font-size: 1.2em;
+        }
+        .valid-message {
+            display: none;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{{ url_for('index') }}">
+            <div class="logo">DRIVE GUARDIAN</div>
+        </a>
+    </header>
+    <main>
+        <div class="user-settings-container">
+            <h2>Configuración del Usuario</h2>
+            <form action="/user" method="post" onsubmit="return validarFormulario()">
+                <label for="new_username">Nuevo nombre de usuario:</label>
+                <input type="text" id="new_username" name="new_username" required>
+                <div id="valid-user" class="valid-message">Usuario válido</div>
+                <button type="submit" name="update_username">Actualizar Usuario</button>
+            </form>
+
+            <form action="/user" method="post" onsubmit="return validarFormulario()">
+                <label for="password" class="aux">Nueva contraseña:</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <button type="button" id="togglePassword" class="toggle-password">
+                        <i id="togglePasswordIcon" class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <div id="valid-password" class="valid-message">Contraseña válida</div>
+
+                <label for="confirm_password" class="aux">Confirme su contraseña:</label>
+                <div class="password-container">
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                    <button type="button" id="toggleConfirmPassword" class="toggle-password">
+                        <i id="toggleConfirmPasswordIcon" class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <div id="valid-confirm-password" class="valid-message">Las contraseñas coinciden</div>
+
+                <button type="submit" name="update_password">Actualizar Contraseña</button>
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </form>
+
+            <!-- Botón para eliminar cuenta -->
+            <button id="eliminar-cuenta-btn" onclick="mostrarConfirmacion()">Eliminar Cuenta</button>
+        </div>
+
+        <!-- Cuadro de confirmación para eliminar cuenta -->
+        <div id="confirmacion-eliminar" style="display:none;">
+            <p>¿Estás seguro de que deseas eliminar tu cuenta?</p>
+            <button onclick="eliminarCuenta()">Sí</button>
+            <button onclick="ocultarConfirmacion()">No</button>
+        </div>
+    </main>
+
+    <!-- Script para confirmar la eliminación de la cuenta -->
+    <script>
+        function mostrarConfirmacion() {
+            document.getElementById('confirmacion-eliminar').style.display = 'block';
+        }
+
+        function ocultarConfirmacion() {
+            document.getElementById('confirmacion-eliminar').style.display = 'none';
+        }
+
+        function eliminarCuenta() {
+            // Enviar solicitud POST para eliminar cuenta
+            fetch('/eliminar_cuenta', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);  // Muestra un mensaje de éxito o error
+                if (data.redirect) {
+                    window.location.href = data.redirect;  // Redirige al login si la eliminación fue exitosa
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function validar_usuario(username) {
+            const usernamePattern = /^(?![.,:])[a-zA-Z0-9@#$%^&+=]{1,20}$/;
+            return usernamePattern.test(username);
+        }
+
+        function validar_contraseña(password) {
+            if (password.length < 8 ||
+                !/[A-Z]/.test(password) ||
+                !/[a-z]/.test(password) ||
+                !/[0-9]/.test(password) ||
+                !/[^A-Za-z0-9]/.test(password) ||
+                /^[0-9]/.test(password)) {
+                return false;
+            }
+            return true;
+        }
+
+        function validar_contraseñas_coinciden(password, confirmPassword) {
+            return password === confirmPassword;
+        }
+
+        function togglePassword(id, iconId) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const userInput = document.getElementById('new_username');
+        const validUserMessage = document.getElementById('valid-user');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+        const updatePasswordButton = document.querySelector('button[name="update_password"]');
+        const formUpdatePassword = updatePasswordButton.closest('form');
+
+        formUpdatePassword.onsubmit = function(event) {
+            if (!validar_contraseñas_coinciden(passwordInput.value, confirmPasswordInput.value)) {
+                event.preventDefault(); // Previene la acción por defecto del formulario, deteniendo el envío
+                alert('Contraseñas no coinciden. Revisar lo escrito.');
+            }
+        };
+
+        function validar_usuario(username) {
+            const usernamePattern = /^(?![.,:])[a-zA-Z0-9@#$%^&+=]{1,20}$/;
+            return usernamePattern.test(username);
+        }
+
+        function validar_contraseña(password) {
+            if (password.length < 8 ||
+                !/[A-Z]/.test(password) ||
+                !/[a-z]/.test(password) ||
+                !/[0-9]/.test(password) ||
+                !/[^A-Za-z0-9]/.test(password) ||
+                /^[0-9]/.test(password)) {
+                return false;
+            }
+            return true;
+        }
+
+        function validar_contraseñas_coinciden(password, confirmPassword) {
+            return password === confirmPassword;
+        }
+
+        function togglePassword(id, iconId) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            togglePassword('password', 'togglePasswordIcon');
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            togglePassword('confirm_password', 'toggleConfirmPasswordIcon');
+        });
+    });
+    </script>
+</body>
+</html>
+

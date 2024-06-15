@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+        .password-container input {
+            width: calc(100% - 40px);
+            padding-right: 40px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .toggle-password i {
+            font-size: 1.2em;
+        }
+        .valid-message {
+            display: none;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+         <a href="{{ url_for('login') }}">
+            <div class="logo">DRIVE GUARDIAN</div>
+        </a>
+    </header>
+    <main>
+        <div class="register-container">
+            <h2>Registrarse</h2>
+            <form action="/register" method="post" onsubmit="return validarFormulario()">
+                <label for="username">Ingrese un usuario:</label>
+                <input type="text" id="username" name="username" required>
+                <div id="valid-user" class="valid-message">Usuario válido</div>
+
+                <label for="email">Ingrese su email:</label>
+                <input type="email" id="email" name="email" required>
+                <div id="valid-email" class="valid-message">Correo válido</div>
+
+                <label for="password">Ingrese una contraseña:</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <button type="button" id="togglePassword" class="toggle-password">
+                        <i id="togglePasswordIcon" class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <div id="valid-password" class="valid-message">Contraseña válida</div>
+
+                <label for="confirm-password">Confirme su contraseña:</label>
+                <div class="password-container">
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <button type="button" id="toggleConfirmPassword" class="toggle-password">
+                        <i id="toggleConfirmPasswordIcon" class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <div id="valid-confirm-password" class="valid-message">Las contraseñas coinciden</div>
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="error-message bounce">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+    </main>
+    <script>
+        function validar_usuario(username) {
+            const usernamePattern = /^(?![.,:])[a-zA-Z0-9@#$%^&+=]{1,20}$/;
+            return usernamePattern.test(username);
+        }
+
+        function validar_contraseña(password) {
+            if (password.length < 8 ||
+                !/[A-Z]/.test(password) ||
+                !/[a-z]/.test(password) ||
+                !/[0-9]/.test(password) ||
+                !/[^A-Za-z0-9]/.test(password) ||
+                /^[0-9]/.test(password)) {
+                return false;
+            }
+            return true;
+        }
+
+        function validar_email(email) {
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return emailPattern.test(email);
+        }
+
+        function validar_contraseñas_coinciden(password, confirmPassword) {
+            return password === confirmPassword;
+        }
+
+        function togglePassword(id, iconId) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInput = document.getElementById('user');
+            const validUserMessage = document.getElementById('valid-user');
+            const emailInput = document.getElementById('email');
+            const validEmailMessage = document.getElementById('valid-email');
+            const passwordInput = document.getElementById('password');
+            const validPasswordMessage = document.getElementById('valid-password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const validConfirmPasswordMessage = document.getElementById('valid-confirm-password');
+
+            userInput.addEventListener('input', function() {
+                if (validar_usuario(userInput.value)) {
+                    validUserMessage.style.display = 'block';
+                    validUserMessage.textContent = 'Usuario Valido'
+                } else {
+                    validUserMessage.style.display = 'none';
+                }
+            });
+
+            emailInput.addEventListener('input', function() {
+                if (validar_email(emailInput.value)) {
+                    validEmailMessage.style.display = 'block';
+                    validEmailMessage.textContent = 'Email Valido'
+                } else {
+                    validEmailMessage.style.display = 'none';
+                }
+            });
+
+            passwordInput.addEventListener('input', function() {
+                if (validar_contraseña(passwordInput.value)) {
+                    validPasswordMessage.style.display = 'block';
+                    validPasswordMessage.textContent = 'Contraseña válida'
+                } else {
+                    validPasswordMessage.style.display = 'none';
+                }
+            });
+
+            confirmPasswordInput.addEventListener('input', function() {
+                if (validar_contraseñas_coinciden(passwordInput.value, confirmPasswordInput.value)) {
+                    validConfirmPasswordMessage.style.display = 'block';
+                    validConfirmPasswordMessage.textContent = 'Contraseña coincide'
+                } else {
+                    validConfirmPasswordMessage.style.display = 'none';
+                }
+            });
+
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                togglePassword('password', 'togglePasswordIcon');
+            });
+
+            document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+                togglePassword('confirm-password', 'toggleConfirmPasswordIcon');
+            });
+        });
+        document.getElementById('togglePassword').addEventListener('click', function (e) {
+            // Toggle the type attribute
+            const password = document.getElementById('password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the icon
+            const icon = document.getElementById('togglePasswordIcon');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function (e) {
+            // Toggle the type attribute
+            const password = document.getElementById('confirm-password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the icon
+            const icon = document.getElementById('toggleConfirmPasswordIcon');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>
+</html>
+
