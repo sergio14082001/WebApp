@@ -1,0 +1,22 @@
+CREATE SCHEMA IF NOT EXISTS driveguardian;
+
+CREATE TABLE driveguardian.user (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username varchar(80) NOT NULL,
+    password_hash varchar(512),
+    email varchar(255),
+    reset_token VARCHAR(128),
+    reset_token_expiry DATETIME,
+    session_token VARCHAR(128),
+    UNIQUE (username)
+);
+CREATE TABLE driveguardian.historial (
+    id INT AUTO_INCREMENT,
+    user_id INT,
+    avenida_inicio VARCHAR(50),
+    avenida_fin VARCHAR(50),
+    porcentaje_prediccion VARCHAR(10),
+    fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+); 
