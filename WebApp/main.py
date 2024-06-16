@@ -14,9 +14,9 @@ import uuid
 #NUEVO
 
 app = Flask(__name__, static_folder='Static')
-app.config['SECRET_KEY'] = 'Coki2410' #CONTRASEÑA DEL SERVIDOR
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://Sergio:Coki2410#@driveguardian123.mysql.database.azure.com/driveguardian'
-#mysql+mysqlconnector://USUARIO:CONTRASEÑA@NOMBRE_DEL_SERVIDOR/NOMBRE_DEL_SCHEMA_DE_BASE_DE_DATOS
+app.config['SECRET_KEY'] = 'Driveguardian123' # CONFIGURAR SECRET KEY/PASSWORD DE LA BASE DE DATOS CREADA EN AZURE
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://user:Driveguardian123@dbdriveguardian.mysql.database.azure.com/driveguardian' # CONFIGURAR CADENA DE CONEXIÓN (ESTRUCTURA EN LINEA 19)
+#'mysql+mysqlconnector://USER_AZURE:CONTRASEÑA_AZURE@NOMBRE_DEL_SERVIDOR_AZURE/NOMBRE_BD_WORKBENCH'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
