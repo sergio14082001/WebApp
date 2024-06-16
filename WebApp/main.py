@@ -14,11 +14,9 @@ import uuid
 #NUEVO
 
 app = Flask(__name__, static_folder='Static')
-# app.config['SECRET_KEY'] = 'Coki2410'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://sergio1408:Coki2410#@sergio1408.mysql.pythonanywhere-services.com/sergio1408$default'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'Coki2410'
+app.config['SECRET_KEY'] = 'Coki2410' #CONTRASEÑA DEL SERVIDOR
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://Sergio:Coki2410#@driveguardian123.mysql.database.azure.com/driveguardian'
+#mysql+mysqlconnector://USUARIO:CONTRASEÑA@NOMBRE_DEL_SERVIDOR/NOMBRE_DEL_SCHEMA_DE_BASE_DE_DATOS
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
