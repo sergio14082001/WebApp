@@ -343,7 +343,7 @@ def execute_script():
                 "-Insight 2\n" + \
                 "-Insight 3"""
     
-    client = OpenAI(api_key='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')
+    client = OpenAI(api_key='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')
     assistant = client.beta.assistants.retrieve("asst_VcBam9unSdunyrRIj0K3SLDS")
     thread = client.beta.threads.retrieve("thread_mTiWvCPuZu0ODFKf2cLPnbsl")
     message = client.beta.threads.messages.create(
